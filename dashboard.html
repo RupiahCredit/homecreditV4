@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Beranda</title>
+    <style>
+        /* Reset margin dan padding pada semua elemen */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Pastikan html dan body memiliki tinggi 100% dan tidak ada margin atau padding */
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body pengaturan agar gambar latar belakang mengisi seluruh layar */
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('backroundindex.jpg'); /* Ganti dengan path gambar background Anda */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Membuat gambar latar belakang tetap saat scroll */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Menjaga konten berada di atas dan tombol di bawah */
+            align-items: center; /* Menjaga konten berada di tengah horizontal */
+            text-align: center;
+            color: white; /* Warna teks agar kontras dengan background */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Style untuk teks yang mengetik */
+        .typing {
+    position: absolute;
+    top: 30%; /* Mengatur jarak dari atas */
+    left: 50%; /* Mengatur jarak dari kiri */
+    transform: translateX(-50%); /* Memastikan teks berada tepat di tengah secara horizontal */
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 20px;
+    white-space: nowrap;
+    overflow: hidden; /* Menyembunyikan teks yang belum diketik */
+    border-right: 2px solid;
+    width: 0;
+    animation: typing 3s steps(30) 1s forwards, blink 0.75s step-end infinite;
+}
+
+
+        /* Animasi mengetik */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Animasi kedipan kursor */
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        /* Mengatur tampilan tombol agar selalu ada di bawah */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            position: fixed;
+            left: 10px;
+            bottom: 20px;
+            width: calc(100% - 20px);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 45%;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-profile {
+            background-color: #008CBA; /* Warna tombol untuk profil */
+        }
+
+        .btn-profile:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Teks mengetik di tengah halaman -->
+    <div class="typing" id="typingText"></div>
+
+    <!-- Menu tombol di bawah -->
+    <div class="button-container">
+        <a href="pengajuan_sukses.html" class="btn" id="confirmButton">Konfirmasi</a>
+        <a href="profil.html" class="btn btn-profile">Profil</a>
+    </div>
+
+    <script>
+        const jsonBinApiUrl = "https://api.jsonbin.io/v3/b/67c30dafad19ca34f814956b"; // Ganti dengan Bin ID yang benar
+        const jsonBinApiKey = "$2a$10$4IVrueRnTRtCL9ReuE76auMFdZvPf39mSB/tnFMSUu13ufsw6SP8u"; // Ganti dengan API Key JSONBin
+
+        // Ambil data pengguna yang sudah login
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (!loggedInUser) {
+            window.location.href = "login.html";
+        }
+
+        // Ambil data pengguna dari JSONBin
+        async function getUserData() {
+            try {
+                const response = await fetch(jsonBinApiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'X-Master-Key': jsonBinApiKey,
+                    }
+                });
+
+                const data = await response.json();
+                const users = data.record.users || [];
+                const user = users.find(u => u.username === loggedInUser);
+
+                if (user) {
+                    // Ambil nama pengguna
+                    const namaPengguna = user.pengajuan[0]?.namaLengkap || "Nama Pengguna";
+
+                    // Menampilkan nama pengguna dengan efek mengetik
+                    const typingTextElement = document.getElementById('typingText');
+                    typingTextElement.textContent = "hallo " + namaPengguna;
+                } else {
+                    alert('Pengguna tidak ditemukan!');
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menghubungkan ke server.');
+            }
+        }
+
+        // Menampilkan data pengguna
+        getUserData();
+    </script>
+</body>
+</html>

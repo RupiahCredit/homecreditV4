@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengajuan Pinjaman</title>
+    <link rel="stylesheet" href="pengajuan.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pengajuan Pinjaman</h1>
+        <form id="pengajuanForm">
+            <label for="namaLengkap">Nama Lengkap:</label>
+            <input type="text" id="namaLengkap" name="namaLengkap" required>
+
+            <label for="whatsapp">Nomor WhatsApp:</label>
+            <input type="text" id="whatsapp" name="whatsapp" required>
+
+            <label for="fotoKTP">Foto KTP:</label>
+            <input type="file" id="fotoKTP" name="fotoKTP" required accept="image/*">
+
+            <label for="fotoMemegangKTP">Foto Memegang KTP:</label>
+            <input type="file" id="fotoMemegangKTP" name="fotoMemegangKTP" required accept="image/*">
+
+            <label for="penghasilan">Penghasilan Perbulan:</label>
+            <input type="text" id="penghasilan" name="penghasilan" required>
+
+            <label for="alamat">Alamat Sekarang:</label>
+            <textarea id="alamat" name="alamat" rows="4" required></textarea>
+
+            <label for="pinjaman">Pinjaman yang Diambil:</label>
+            <select id="pinjaman" name="pinjaman" required>
+                <option value="500000">500,000</option>
+                <option value="1000000">1,000,000</option>
+                <option value="1500000">1,500,000</option>
+                <option value="2000000">2,000,000</option>
+                <option value="2500000">2,500,000</option>
+                <option value="3000000">3,000,000</option>
+                <option value="3500000">3,500,000</option>
+                <option value="4000000">4,000,000</option>
+                <option value="4500000">4,500,000</option>
+                <option value="5000000">5,000,000</option>
+                <option value="5500000">5,500,000</option>
+                <option value="6000000">6,000,000</option>
+                <option value="6500000">6,500,000</option>
+                <option value="7000000">7,000,000</option>
+                <option value="8500000">8,500,000</option>
+                <option value="10000000">10,000,000</option>
+                <option value="15000000">15,000,000</option>
+                <option value="20000000">20,000,000</option>
+                <option value="25000000">25,000,000</option>
+                <option value="30000000">30,000,000</option>
+                <option value="35000000">35,000,000</option>
+            </select>
+
+            <label for="waktuPinjaman">Waktu Pinjaman (hari):</label>
+            <select id="waktuPinjaman" name="waktuPinjaman" required>
+                <option value="7">7 hari</option>
+                <option value="9">9 hari</option>
+                <option value="11">11 hari</option>
+                <option value="13">13 hari</option>
+                <option value="15">15 hari</option>
+                <option value="17">17 hari</option>
+                <option value="19">19 hari</option>
+                <option value="21">21 hari</option>
+                <option value="23">23 hari</option>
+                <option value="25">25 hari</option>
+                <option value="27">27 hari</option>
+                <option value="29">29 hari</option>
+                <option value="31">31 hari</option>
+                <option value="33">33 hari</option>
+                <option value="35">35 hari</option>
+                <!-- Tambahkan kelipatan 2 hari hingga 3 bulan -->
+            </select>
+
+            <label for="rekening">Nomor & Jenis Rekening:</label>
+            <input type="text" id="rekening" name="rekening" required>
+
+            <button type="submit">Ajukan Pinjaman</button>
+        </form>
+
+        <p><a href="index.html">Kembali ke Halaman Utama</a></p>
+    </div>
+
+    <script src="pengajuan.js"></script>
+</body>
+</html>

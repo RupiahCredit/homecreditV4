@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Nasabah</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('backroundindex.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            padding-top: 120px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .profile-detail {
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ccc;
+        }
+        .profile-detail p {
+            margin-top: 10px;
+        }
+        .form-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-section p {
+            margin: 5px 0;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 200px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Nasabah</h1>
+
+        <!-- Menampilkan Detail Pengguna -->
+        <div class="profile-detail" id="profileDetail">
+            <!-- Data Pengguna akan dimasukkan ke sini melalui JavaScript -->
+        </div>
+
+        <!-- Tombol kembali ke Dashboard -->
+        <div class="button-container">
+            <a href="dashboard.html" class="btn">Kembali ke Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        const jsonBinApiUrl = "https://api.jsonbin.io/v3/b/67c30dafad19ca34f814956b"; // Ganti dengan Bin ID yang benar
+        const jsonBinApiKey = "$2a$10$4IVrueRnTRtCL9ReuE76auMFdZvPf39mSB/tnFMSUu13ufsw6SP8u"; // Ganti dengan API Key JSONBin
+
+        // Ambil data pengguna yang sudah login
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (!loggedInUser) {
+            window.location.href = "login.html";
+        }
+
+        // Ambil data pengguna dari JSONBin
+        async function getUserData() {
+            try {
+                const response = await fetch(jsonBinApiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'X-Master-Key': jsonBinApiKey,
+                    }
+                });
+
+                const data = await response.json();
+                const users = data.record.users || [];
+                const user = users.find(u => u.username === loggedInUser);
+
+                if (user) {
+                    // Ambil data pengajuan terakhir
+                    const pengajuan = user.pengajuan[0]; // Mengambil pengajuan pertama
+
+                    // Menampilkan profil pengguna sesuai dengan struktur yang diminta
+                    document.getElementById('profileDetail').innerHTML = `
+                        <div class="form-section">
+                            <strong>Nama:</strong>
+                            <p>${pengajuan.namaLengkap}</p>
+                        </div>
+
+                        <div class="form-section">
+                            <strong>Nomor WhatsApp:</strong>
+                            <p>${pengajuan.whatsapp}</p>
+                        </div>
+
+                        <div class="form-section">
+                            <strong>Alamat Sekarang:</strong>
+                            <p>${pengajuan.alamat}</p>
+                        </div>
+
+                        <div class="form-section">
+                            <strong>Nominal Pinjaman:</strong>
+                            <p>Rp ${pengajuan.pinjaman}</p>
+                        </div>
+
+                        <div class="form-section">
+                            <strong>Waktu Pinjaman:</strong>
+                            <p>${pengajuan.waktuPinjaman} Hari</p>
+                        </div>
+
+                        <div class="form-section">
+                            <strong>Penghasilan Per Bulan:</strong>
+                            <p>Rp ${pengajuan.penghasilan}</p>
+                        </div>
+
+                        <div class="form-section">
+                            <strong>Nomor/Jenis Rekening:</strong>
+                            <p>${pengajuan.rekening}</p>
+                        </div>
+                    `;
+                } else {
+                    alert('Pengguna tidak ditemukan!');
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal menghubungkan ke server.');
+            }
+        }
+
+        // Menampilkan data pengguna
+        getUserData();
+    </script>
+</body>
+</html>
